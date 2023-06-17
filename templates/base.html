@@ -1,0 +1,17 @@
+{% load static %}
+<html>
+    <head>
+        <title>LITReview</title>
+    </head>
+    <body>
+        <div class="navbar">
+            <h1>LITReview</h1>
+            {% if user.is_authenticated %}
+                <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+            {% endif %}
+        </div>
+        <div class="main">
+            {% block content %}{% endblock content %}
+        </div>
+    </body>
+</html>
