@@ -24,7 +24,7 @@ class Review(models.Model):
 
 
 class UserFollows(models.Model):
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on on_delete=models.CASCADE, related_name='following')
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
     followed_user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_by')
 
     class Meta:
@@ -33,7 +33,7 @@ class UserFollows(models.Model):
         # As unique_together will be deprecated in the future
         # using constraints instead (ref Django documentation)
         constraints = [
-            UniqueConstraint(
+            models.UniqueConstraint(
                  fields=['user', 'followed_user'], 
                  name='unique_user_user_followed_pairs'
             )
