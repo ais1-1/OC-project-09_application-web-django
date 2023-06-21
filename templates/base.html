@@ -4,12 +4,17 @@
         <title>LITReview</title>
     </head>
     <body>
-        <div class="navbar">
+        <nav>
             <h1>LITReview</h1>
-            {% if user.is_authenticated %}
-                <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
-            {% endif %}
-        </div>
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'home' %}">Flux</a>
+                    <a href="">Posts</a>
+                    <a href="">Abonnements</a>
+                    <a href="{% url 'logout' %}">Se déconnecter</a>
+                {% endif %}
+            </div>
+        </nav>
         <div class="main">
             {% block content %}{% endblock content %}
         </div>
