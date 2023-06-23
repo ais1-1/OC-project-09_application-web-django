@@ -4,4 +4,18 @@
 
 {{ user }} is connected
 
+<button><a href="{% url 'ticket_create' %}">Demander une critique</a></button>
+<ul>
+    {% for ticket in tickets %}
+        <li>Ticket - {{ ticket.user }} - {{ ticket.title }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Reviews</h3>
+<ul>
+    {% for review in reviews %}
+        <li>{{ review }}</li>
+    {% endfor %}
+</ul>
+
 {% endblock content %}
