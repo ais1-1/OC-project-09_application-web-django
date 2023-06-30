@@ -7,7 +7,11 @@
 <button><a href="{% url 'ticket_create' %}">Demander une critique</a></button>
 <ul>
     {% for ticket in tickets %}
-        <li>Ticket - {{ ticket.user }} - {{ ticket.title }}</li>
+        {% if user == ticket.user %}
+            <li><a href="{% url 'ticket_edit' ticket.pk %}">Ticket - {{ ticket.user }} - {{ ticket.title }}</a></li>
+        {% else %}
+            <li>Ticket - {{ ticket.user }} - {{ ticket.title }}</li>
+        {% endif %}
     {% endfor %}
 </ul>
 
