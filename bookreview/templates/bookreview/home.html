@@ -5,6 +5,7 @@
 {{ user }} is connected
 
 <button><a href="{% url 'ticket_create' %}">Demander une critique</a></button>
+<button><a href="{% url 'review_create' %}">Créer une critique</a></button>
 <ul>
     {% for ticket in tickets %}
         {% if user == ticket.user %}
@@ -18,7 +19,11 @@
 <h3>Reviews</h3>
 <ul>
     {% for review in reviews %}
-        <li>{{ review }}</li>
+        {% if user == review.user %}
+            <li><a href="{% url 'review_edit' review.pk %}">Review - {{ review.user }} - {{ review.headline }} for {{ review.ticket }}</a></li>
+        {% else %}
+            <li>Review - {{ review.user }} - {{ review.headline }}</li>
+        {% endif %}
     {% endfor %}
 </ul>
 

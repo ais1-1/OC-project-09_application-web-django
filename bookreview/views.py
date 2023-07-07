@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from .models import Ticket, Review, UserFollows
 
-from . import forms
+from .forms import CreateTicketForm, CreateReviewForm
 
 
 @login_required
@@ -17,9 +17,9 @@ def home(request):
 
 @login_required
 def create_ticket(request):
-    form = forms.CreateTicketForm()
+    form = CreateTicketForm()
     if request.method == 'POST':
-        form = forms.CreateTicketForm(request.POST, request.FILES)
+        form = CreateTicketForm(request.POST, request.FILES)
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.user = request.user
@@ -30,14 +30,14 @@ def create_ticket(request):
 
 @login_required
 def edit_ticket(request, tickets_pk):
-    ticket = Ticket.objects.get(pk=tickets_pk, user=request.user)
+    ticket = get_object_or_404(Ticket, pk=tickets_pk, user=request.user)
     if ticket.image:
         image_file = ticket.image.url
     else:
         image_file = ""
     
     if request.method == 'POST':
-        form = forms.CreateTicketForm(request.POST, request.FILES, instance=ticket)
+        form = CreateTicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form_instance = form.save(commit=False)
             form_instance.user = request.user
@@ -47,8 +47,72 @@ def edit_ticket(request, tickets_pk):
         data = {
             "title": ticket.title,
             "description": ticket.description,
-            "image": image_file
+            "user": ticket.user,
+            "image": image_file,
+            "time_created": ticket.time_created
         }
-        form = forms.CreateTicketForm(initial=data)
+        form = CreateTicketForm(initial=data)
     return render(request, 'bookreview/edit_ticket.html', context={'form': form, 'image_file': image_file})
     
+
+@login_required
+def create_review(request):
+    ticket_form = CreateTicketForm()
+    review_form = CreateReviewForm()
+    if request.method == 'POST':
+        ticket_form = CreateTicketForm(request.POST, request.FILES)
+        review_form = CreateReviewForm(request.POST)
+        if all([ticket_form.is_valid(), review_form.is_valid()]):
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            review = review_form.save(commit=False)
+            review.ticket = ticket
+            review.user = request.user
+            review.save()
+            return redirect('home')
+    return render(request, 'bookreview/create_review.html', context={'ticket_form': ticket_form, 'review_form': review_form}) 
+
+
+
+@login_required
+def edit_review(request, review_pk):
+    review = get_object_or_404(Review, pk=review_pk, user=request.user)
+    ticket = review.ticket
+    if request.method == 'POST':
+        form = CreateReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form_instance = form.save(commit=False)
+            form_instance.ticket = ticket
+            form_instance.user = request.user
+            form_instance.save()
+            return redirect('home')
+    else :
+        data = {
+            "ticket": ticket,
+            "rating": review.rating,
+            "headline": review.headline,
+            "body": review.body,
+            "user": review.user,
+            "time_created": review.time_created
+        }
+        print(data)
+        form = CreateReviewForm(initial=data)
+    return render(request, 'bookreview/edit_review.html', context={'form': form, 'ticket': ticket})
+    
+
+
+@login_required
+def create_review_as_response(request, tickets_pk):
+    pass
+"""
+    form = CreateReviewForm()
+    if request.method == 'POST':
+        form = CreateReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.save()
+            return redirect('home')
+    return render(request, 'bookreview/create_review_as_response.html', context={'form': form})
+"""

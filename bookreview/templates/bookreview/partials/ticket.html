@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <p>{{ ticket.user }} a demandé une critique</p>
+    <p>{{ ticket.time_created }}</p>
+</div>
+<div>
+    {{ ticket.title }}
+</div>
+<div>
+    {{ ticket.description }}
+</div>
+<div>
+    {% if ticket.image %}
+        {{ ticket.image.url }}
+    {% endif %}
+</div>
+
+    
+
+{% endblock content %}

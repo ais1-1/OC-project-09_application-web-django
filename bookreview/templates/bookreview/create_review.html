@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Créer une critique</h2>
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        <h3>Livre/Article</h3>
+        {{ ticket_form.as_p }}
+        <h3>Critique</h3>
+        <p>Titre</p>
+        <p>{{ review_form.headline }}</p>
+        <p>Note</p>
+        {% for radio in review_form.rating %}
+            <span class="myradio">
+                {{ radio }}
+            </span>
+        {% endfor %}
+        <p>Commentaire</p>
+        <p>{{ review_form.body }}</p>
+        {% csrf_token %}
+        <button type="submit" >Envoyer</button>
+    </form>
+
+{% endblock content %}
