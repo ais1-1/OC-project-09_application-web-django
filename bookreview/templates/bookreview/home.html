@@ -1,30 +1,33 @@
 {% extends 'base.html' %}
-
+{% load post_extras %}
 {% block content %}
-
-{{ user }} is connected
 
 <button><a href="{% url 'ticket_create' %}">Demander une critique</a></button>
 <button><a href="{% url 'review_create' %}">Créer une critique</a></button>
-<ul>
-    {% for ticket in tickets %}
-        {% if user == ticket.user %}
-            <li><a href="{% url 'ticket_edit' ticket.pk %}">Ticket - {{ ticket.user }} - {{ ticket.title }}</a></li>
-        {% else %}
-            <li>Ticket - {{ ticket.user }} - {{ ticket.title }}</li>
-        {% endif %}
-    {% endfor %}
-</ul>
 
-<h3>Reviews</h3>
-<ul>
-    {% for review in reviews %}
-        {% if user == review.user %}
-            <li><a href="{% url 'review_edit' review.pk %}">Review - {{ review.user }} - {{ review.headline }} for {{ review.ticket }}</a></li>
-        {% else %}
-            <li>Review - {{ review.user }} - {{ review.headline }}</li>
+<div>
+    {% for instance in page_obj %}
+        {% if instance|model_type == 'Review' %}
+            {% include 'bookreview/partials/review.html' with review=instance %}
+            {% if instance.user == request.user %}
+                <button><a href="{% url 'review_edit' instance.pk %}">Modifier</a></button>
+                <button><a href="{% url 'review_delete' instance.pk %}">Supprimer</a></button>
+            {% endif %}
+        {% elif instance|model_type == 'Ticket' %}
+            <p>Ticket - {% get_poster_display instance.user %}</p>
+            {% include 'bookreview/partials/ticket.html' with ticket=instance %}
+            {% if instance.user == request.user %}
+                <button><a href="{% url 'ticket_edit' instance.pk %}">Modifier</a></button>
+                <button><a href="{% url 'ticket_delete' instance.pk %}">Supprimer</a></button>
+            {% elif instance.pk in tickets_pk_with_response %}
+                </br>
+            {% else %}
+                <button><a href="{% url 'review_create_as_response' instance.pk %}">Créer une critique</a></button>
+            {% endif %}
         {% endif %}
+        ---------------------
     {% endfor %}
-</ul>
+</div>
+{% include 'partials/page_navigator.html' %}
 
 {% endblock content %}

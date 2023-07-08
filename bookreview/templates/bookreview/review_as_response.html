@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load post_extras %}
+{% block content %}
+
+<h2>Créer une critique</h2>
+    Vous êtes en train de poster en réponse à
+    <div>
+        <p>{% get_poster_display_in_review ticket.user %} demandé une critique</p>
+        {% include 'bookreview/partials/ticket.html' with ticket=ticket %}
+    </div>
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+    <form method="post">
+        <h3>Critique</h3>
+        <p>Titre</p>
+        <p>{{ form.headline }}</p>
+        <p>Note</p>
+        {% for radio in form.rating %}
+            <span class="myradio">
+                {{ radio }}
+            </span>
+        {% endfor %}
+        <p>Commentaire</p>
+        <p>{{ form.body }}</p>
+        {% csrf_token %}
+        <button type="submit" >Envoyer</button>
+    </form>
+
+{% endblock content %}

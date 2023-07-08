@@ -10,10 +10,25 @@ from .forms import CreateTicketForm, CreateReviewForm, DeleteForm
 
 @login_required
 def home(request):
-    user = request.user
     tickets = Ticket.objects.all()
     reviews = Review.objects.all()
-    context = {"user" : user, "tickets": tickets, "reviews": reviews}
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
+
+    paginator = Paginator(tickets_and_reviews, 4)
+    
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    tickets_pk_with_response = []
+    for ticket in tickets:
+        if ticket.review_set.count() == 1:
+            tickets_pk_with_response.append(ticket.pk)
+
+    context = {'page_obj': page_obj, 'tickets_pk_with_response': tickets_pk_with_response}
     return render(request, 'bookreview/home.html', context=context)
 
 
@@ -152,15 +167,15 @@ def delete_review(request, review_pk):
 
 @login_required
 def create_review_as_response(request, tickets_pk):
-    pass
-"""
+    ticket = get_object_or_404(Ticket, pk=tickets_pk)
     form = CreateReviewForm()
     if request.method == 'POST':
         form = CreateReviewForm(request.POST)
         if form.is_valid():
-            review = form.save(commit=False)
-            review.user = request.user
-            review.save()
+            form_instance = form.save(commit=False)
+            form_instance.ticket = ticket
+            form_instance.user = request.user
+            form_instance.save()
             return redirect('home')
-    return render(request, 'bookreview/create_review_as_response.html', context={'form': form})
-"""
+    return render(request, 'bookreview/review_as_response.html', context={'form': form, 'ticket': ticket})
+    
