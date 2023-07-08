@@ -1,4 +1,4 @@
-from django.forms import ModelForm, ChoiceField, RadioSelect
+from django.forms import ModelForm, ChoiceField, RadioSelect, Form, BooleanField, HiddenInput
 
 from .models import Ticket, Review
 
@@ -22,3 +22,7 @@ class CreateReviewForm(ModelForm):
     class Meta:
         model = Review
         fields = ['headline', 'rating', 'body']
+
+
+class DeleteForm(Form):
+    delete_form = BooleanField(widget=HiddenInput, initial=True)

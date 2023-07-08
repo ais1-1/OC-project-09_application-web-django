@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
-
+{% load post_extras %}
 {% block content %}
 
 <h2>Modifier votre critique</h2>
-    {% include 'bookreview/partials/ticket.html' with ticket=ticket %}
+    <div>
+        <p>{% get_poster_display_in_review ticket.user %} demandé une critique</p>
+        {% include 'bookreview/partials/ticket.html' with ticket=ticket %}
+    </div>
     {% if form.errors %}
         {{ form.errors }}
     {% endif %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% include 'bookreview/partials/review.html' with review=review %}
+    <h3>Supprimer la critique ?</h3>
+    <form method="post">
+        {{ delete_form }}
+        {% csrf_token %}
+        <button type="submit" >Supprimer</button>
+    </form>
+{% endblock content %}

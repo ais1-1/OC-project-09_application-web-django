@@ -34,9 +34,12 @@ urlpatterns = [
     path('home/', bookreview.views.home, name='home'),
     path('ticket/create/', bookreview.views.create_ticket, name='ticket_create'),
     path('ticket/<int:tickets_pk>/edit/', bookreview.views.edit_ticket, name='ticket_edit'),
+    path('ticket/<int:tickets_pk>/delete/', bookreview.views.delete_ticket, name='ticket_delete'),
     path('review/create/', bookreview.views.create_review, name='review_create'),
     path('review/<int:review_pk>/edit/', bookreview.views.edit_review, name='review_edit'),
-    path('review/create_as_response/<int:tickets_pk>', bookreview.views.create_review_as_response, name='review_create_as_response'),
+    path('review/<int:review_pk>/delete/', bookreview.views.delete_review, name='review_delete'),
+    path('review/create-as-response/<int:tickets_pk>', bookreview.views.create_review_as_response, name='review_create_as_response'),
+    path('my-posts/', bookreview.views.my_posts, name='my_posts'),
 
 ]
 

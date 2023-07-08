@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from itertools import chain
 
 from .models import Ticket, Review, UserFollows
 
-from .forms import CreateTicketForm, CreateReviewForm
+from .forms import CreateTicketForm, CreateReviewForm, DeleteForm
 
 
 @login_required
@@ -13,6 +15,26 @@ def home(request):
     reviews = Review.objects.all()
     context = {"user" : user, "tickets": tickets, "reviews": reviews}
     return render(request, 'bookreview/home.html', context=context)
+
+
+@login_required
+def my_posts(request):
+    tickets = Ticket.objects.filter(user=request.user)
+    reviews = Review.objects.filter(user=request.user)
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
+
+    paginator = Paginator(tickets_and_reviews, 3)
+    
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'page_obj': page_obj}
+
+    return render(request, 'bookreview/my_posts.html', context=context)
+
 
 
 @login_required
@@ -53,6 +75,19 @@ def edit_ticket(request, tickets_pk):
         }
         form = CreateTicketForm(initial=data)
     return render(request, 'bookreview/edit_ticket.html', context={'form': form, 'image_file': image_file})
+
+
+@login_required
+def delete_ticket(request, tickets_pk):
+    ticket = get_object_or_404(Ticket, pk=tickets_pk, user=request.user)
+    delete_form = DeleteForm()
+    if request.method == 'POST':
+        if 'delete_form' in request.POST:
+            delete_form = DeleteForm(request.POST)
+            if delete_form.is_valid():
+                ticket.delete()
+                return redirect('home')
+    return render(request, 'bookreview/delete_ticket.html', context={'delete_form':delete_form, 'ticket': ticket})
     
 
 @login_required
@@ -96,9 +131,22 @@ def edit_review(request, review_pk):
             "user": review.user,
             "time_created": review.time_created
         }
-        print(data)
         form = CreateReviewForm(initial=data)
     return render(request, 'bookreview/edit_review.html', context={'form': form, 'ticket': ticket})
+    
+
+
+@login_required
+def delete_review(request, review_pk):
+    review = get_object_or_404(Review, pk=review_pk, user=request.user)
+    delete_form = DeleteForm()
+    if request.method == 'POST':
+        if 'delete_form' in request.POST:
+            delete_form = DeleteForm(request.POST)
+            if delete_form.is_valid():
+                review.delete()
+                return redirect('home')
+    return render(request, 'bookreview/delete_review.html', context={'delete_form':delete_form, 'review': review})
     
 
 

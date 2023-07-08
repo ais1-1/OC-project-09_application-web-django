@@ -1,0 +1,24 @@
+{% load post_extras %}
+{% block content %}
+
+<div>
+    <p>{% get_poster_display_in_review review.user %} publié une critique</p>
+    <p>{{ review.time_created }}</p>
+</div>
+<div>
+    {{ review.headline }} - 
+    {% for rating in review.rating|get_range %}
+        <span class="fa fa-star checked"></span>
+    {% endfor %}
+</div>
+<div>
+    {{ review.body }}
+</div>
+<div>
+    <p>Ticket - {% get_poster_display review.user %}</p>
+    {% include 'bookreview/partials/ticket.html' with ticket=review.ticket %}
+</div>
+
+    
+
+{% endblock content %}
