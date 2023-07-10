@@ -13,9 +13,8 @@ class Ticket(models.Model):
 
     IMAGE_MAX_SIZE = (800, 800)
 
-
     def __str__(self):
-        return f'{self.title}'
+        return f"{self.title}"
 
     def resize_image(self):
         if self.image:
@@ -31,26 +30,30 @@ class Ticket(models.Model):
         self.resize_image()
 
 
-
-
 class Review(models.Model):
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
         # validates that rating must be between 0 and 5
-        validators=[MinValueValidator(0), MaxValueValidator(5)])
+        validators=[MinValueValidator(0), MaxValueValidator(5)]
+    )
     headline = models.CharField(max_length=128)
     body = models.TextField(max_length=8192, blank=True)
-    user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.headline}'
+        return f"{self.headline}"
 
 
 class UserFollows(models.Model):
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
-    followed_user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_by')
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="following"
+    )
+    followed_user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="followed_by",
+    )
 
     class Meta:
         # ensures we don't get multiple UserFollows instances
@@ -59,8 +62,6 @@ class UserFollows(models.Model):
         # using constraints instead (ref Django documentation)
         constraints = [
             models.UniqueConstraint(
-                 fields=['user', 'followed_user'], 
-                 name='unique_user_user_followed_pairs'
+                fields=["user", "followed_user"], name="unique_user_user_followed_pairs"
             )
-    ]
-
+        ]
