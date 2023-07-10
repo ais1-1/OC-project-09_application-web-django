@@ -1,18 +1,14 @@
 {% extends 'base.html' %}
-
 {% block content %}
-
-<h2>Modifier votre ticket</h2>
-    {% if form.errors %}
-        {{ form.errors }}
-    {% endif %}
+    <h2>Modifier votre ticket</h2>
+    {% if form.errors %}{{ form.errors }}{% endif %}
     <form method="post" enctype="multipart/form-data">
         {{ form.as_p }}
         {% csrf_token %}
         {% if image_file %}
-            <img src="{{ image_file }}"></br>
-        {% endif %}
-        <button type="submit" >Envoyer</button>
-    </form>
-
+            <img src="{{ image_file }}" alt="Image du livre">
+        </br>
+    {% endif %}
+    <button type="submit">Envoyer</button>
+</form>
 {% endblock content %}

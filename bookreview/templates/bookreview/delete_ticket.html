@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% load post_extras %}
 {% block content %}
-
-<p>Ticket - {% get_poster_display ticket.user %}</p>
-{% include 'bookreview/partials/ticket.html' with ticket=ticket %}
+    <p>Ticket - {% get_poster_display ticket.user %}</p>
+    {% include 'bookreview/partials/ticket.html' with ticket=ticket %}
     <h3>Supprimer le ticket ?</h3>
     <form method="post">
         {{ delete_form }}
         {% csrf_token %}
-        <button type="submit" >Supprimer</button>
+        <button type="submit">Supprimer</button>
     </form>
 {% endblock content %}
