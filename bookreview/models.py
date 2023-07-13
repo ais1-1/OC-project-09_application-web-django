@@ -65,3 +65,6 @@ class UserFollows(models.Model):
                 fields=["user", "followed_user"], name="unique_user_user_followed_pairs"
             )
         ]
+
+    def __str__(self):
+        return f"{self.user} follows {self.followed_user}"

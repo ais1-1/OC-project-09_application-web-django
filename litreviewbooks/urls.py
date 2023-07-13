@@ -61,6 +61,8 @@ urlpatterns = [
         name="review_create_as_response",
     ),
     path("my-posts/", bookreview.views.my_posts, name="my_posts"),
+    path('follow-users/', bookreview.views.follow_users, name='follow_users'),
+    path('<int:user_pk>/unfollow/', bookreview.views.unfollow_user, name='unfollow_user')
 ]
 
 if settings.DEBUG:

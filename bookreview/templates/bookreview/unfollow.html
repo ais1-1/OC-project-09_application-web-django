@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h3>Désabonner {{ user_follows.followed_user }} ?</h3>
+    <form method="post">
+        {{ delete_form }}
+        {% csrf_token %}
+        <button type="submit">Désabonner</button>
+    </form>
+{% endblock content %}

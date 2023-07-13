@@ -2,10 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from itertools import chain
+from django.contrib.auth import get_user_model
+
 
 from .models import Ticket, Review, UserFollows
+from . import forms
 
-from .forms import CreateTicketForm, CreateReviewForm, DeleteForm
+
+User = get_user_model()
 
 
 @login_required
@@ -56,9 +60,9 @@ def my_posts(request):
 
 @login_required
 def create_ticket(request):
-    form = CreateTicketForm()
+    form = forms.CreateTicketForm()
     if request.method == "POST":
-        form = CreateTicketForm(request.POST, request.FILES)
+        form = forms.CreateTicketForm(request.POST, request.FILES)
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.user = request.user
@@ -76,7 +80,7 @@ def edit_ticket(request, tickets_pk):
         image_file = ""
 
     if request.method == "POST":
-        form = CreateTicketForm(request.POST, request.FILES, instance=ticket)
+        form = forms.CreateTicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form_instance = form.save(commit=False)
             form_instance.user = request.user
@@ -90,7 +94,7 @@ def edit_ticket(request, tickets_pk):
             "image": image_file,
             "time_created": ticket.time_created,
         }
-        form = CreateTicketForm(initial=data)
+        form = forms.CreateTicketForm(initial=data)
     return render(
         request,
         "bookreview/edit_ticket.html",
@@ -101,10 +105,10 @@ def edit_ticket(request, tickets_pk):
 @login_required
 def delete_ticket(request, tickets_pk):
     ticket = get_object_or_404(Ticket, pk=tickets_pk, user=request.user)
-    delete_form = DeleteForm()
+    delete_form = forms.DeleteForm()
     if request.method == "POST":
         if "delete_form" in request.POST:
-            delete_form = DeleteForm(request.POST)
+            delete_form = forms.DeleteForm(request.POST)
             if delete_form.is_valid():
                 ticket.delete()
                 return redirect("home")
@@ -117,11 +121,11 @@ def delete_ticket(request, tickets_pk):
 
 @login_required
 def create_review(request):
-    ticket_form = CreateTicketForm()
+    ticket_form = forms.CreateTicketForm()
     review_form = CreateReviewForm()
     if request.method == "POST":
-        ticket_form = CreateTicketForm(request.POST, request.FILES)
-        review_form = CreateReviewForm(request.POST)
+        ticket_form = forms.CreateTicketForm(request.POST, request.FILES)
+        review_form = forms.CreateReviewForm(request.POST)
         if all([ticket_form.is_valid(), review_form.is_valid()]):
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
@@ -143,7 +147,7 @@ def edit_review(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk, user=request.user)
     ticket = review.ticket
     if request.method == "POST":
-        form = CreateReviewForm(request.POST, instance=review)
+        form = forms.CreateReviewForm(request.POST, instance=review)
         if form.is_valid():
             form_instance = form.save(commit=False)
             form_instance.ticket = ticket
@@ -159,7 +163,7 @@ def edit_review(request, review_pk):
             "user": review.user,
             "time_created": review.time_created,
         }
-        form = CreateReviewForm(initial=data)
+        form = forms.CreateReviewForm(initial=data)
     return render(
         request, "bookreview/edit_review.html", context={"form": form, "ticket": ticket}
     )
@@ -168,10 +172,10 @@ def edit_review(request, review_pk):
 @login_required
 def delete_review(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk, user=request.user)
-    delete_form = DeleteForm()
+    delete_form = forms.DeleteForm()
     if request.method == "POST":
         if "delete_form" in request.POST:
-            delete_form = DeleteForm(request.POST)
+            delete_form = forms.DeleteForm(request.POST)
             if delete_form.is_valid():
                 review.delete()
                 return redirect("home")
@@ -185,9 +189,9 @@ def delete_review(request, review_pk):
 @login_required
 def create_review_as_response(request, tickets_pk):
     ticket = get_object_or_404(Ticket, pk=tickets_pk)
-    form = CreateReviewForm()
+    form = forms.CreateReviewForm()
     if request.method == "POST":
-        form = CreateReviewForm(request.POST)
+        form = forms.CreateReviewForm(request.POST)
         if form.is_valid():
             form_instance = form.save(commit=False)
             form_instance.ticket = ticket
@@ -198,4 +202,48 @@ def create_review_as_response(request, tickets_pk):
         request,
         "bookreview/review_as_response.html",
         context={"form": form, "ticket": ticket},
+    )
+
+
+@login_required
+def follow_users(request):
+    followed_users = UserFollows.objects.filter(user=request.user)
+    user_followees = UserFollows.objects.filter(followed_user=request.user)
+    form = forms.UserSubscriptionForm(initial={"user": ""})
+    if request.method == "POST":
+        form = forms.UserSubscriptionForm(request.POST)
+        if form.is_valid():
+            form_instance = form.save(commit=False)
+            form_instance.user = request.user
+            form_instance.follow = form.cleaned_data["followed_user"]
+            form_instance.save()
+            return redirect("home")
+    return render(
+        request,
+        "bookreview/subscriptions.html",
+        context={
+            "form": form,
+            "followed_users": followed_users,
+            "user_followees": user_followees,
+        },
+    )
+
+
+@login_required
+def unfollow_user(request, user_pk):
+    followed_user = get_object_or_404(User, pk=user_pk)
+    user_follows = get_object_or_404(
+        UserFollows, user=request.user, followed_user=followed_user
+    )
+    delete_form = forms.DeleteForm()
+    if request.method == "POST":
+        if "delete_form" in request.POST:
+            delete_form = forms.DeleteForm(request.POST)
+            if delete_form.is_valid():
+                user_follows.delete()
+                return redirect("home")
+    return render(
+        request,
+        "bookreview/unfollow.html",
+        context={"delete_form": delete_form, "user_follows": user_follows},
     )
