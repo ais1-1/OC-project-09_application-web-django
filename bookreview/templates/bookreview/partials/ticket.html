@@ -1,10 +1,25 @@
+{% load post_extras %}
 {% block content %}
-    <div>
-        <p>{{ ticket.time_created }}</p>
+    <div class="ticket">
+        <div class="time_created">
+            <p>{{ ticket.time_created|get_posted_at_display }}</p>
+        </div>
+        <div class="title">{{ ticket.title }}</div>
+        <div>{{ ticket.description }}</div>
+        <div>
+            {% if ticket.image %}
+                <img src="{{ ticket.image.url }}"
+                     height=""
+                     width=""
+                     alt="{{ ticket.title }}">
+            {% endif %}
+        </div>
     </div>
-    <div>{{ ticket.title }}</div>
-    <div>{{ ticket.description }}</div>
-    <div>
-        {% if ticket.image %}<img src="{{ ticket.image.url }}" alt="{{ ticket.title }}">{% endif %}
-    </div>
+    {% if ticket.pk in tickets_pk_with_response %}
+        <!-- do nothing -->
+    {% else %}
+        <button class="form_button">
+            <a href="{% url 'review_create_as_response' ticket.pk %}">Créer une critique</a>
+        </button>
+    {% endif %}
 {% endblock content %}

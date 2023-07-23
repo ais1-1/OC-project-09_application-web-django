@@ -10,35 +10,34 @@
     <div>
         {% for instance in page_obj %}
             {% if instance|model_type == 'Review' %}
-                {% include 'bookreview/partials/review.html' with review=instance %}
-                {% if instance.user == request.user %}
-                    <button>
-                        <a href="{% url 'review_edit' instance.pk %}">Modifier</a>
-                    </button>
-                    <button>
-                        <a href="{% url 'review_delete' instance.pk %}">Supprimer</a>
-                    </button>
-                {% endif %}
+                <div class="review_container">
+                    {% include 'bookreview/partials/review.html' with review=instance %}
+                    {% if instance.user == request.user %}
+                        <button>
+                            <a href="{% url 'review_edit' instance.pk %}">Modifier</a>
+                        </button>
+                        <button>
+                            <a href="{% url 'review_delete' instance.pk %}">Supprimer</a>
+                        </button>
+                    {% endif %}
+                </div>
+                <!-- review_container -->
             {% elif instance|model_type == 'Ticket' %}
-                <p>Ticket - {% get_poster_display instance.user %}</p>
-                {% include 'bookreview/partials/ticket.html' with ticket=instance %}
-                {% if instance.user == request.user %}
-                    <button>
-                        <a href="{% url 'ticket_edit' instance.pk %}">Modifier</a>
-                    </button>
-                    <button>
-                        <a href="{% url 'ticket_delete' instance.pk %}">Supprimer</a>
-                    </button>
-                {% elif instance.pk in tickets_pk_with_response %}
-                </br>
-            {% else %}
-                <button>
-                    <a href="{% url 'review_create_as_response' instance.pk %}">Créer une critique</a>
-                </button>
+                <div class="ticket_container">
+                    <p>Ticket - {% get_poster_display instance.user %}</p>
+                    {% include 'bookreview/partials/ticket.html' with ticket=instance %}
+                    {% if instance.user == request.user %}
+                        <button>
+                            <a href="{% url 'ticket_edit' instance.pk %}">Modifier</a>
+                        </button>
+                        <button>
+                            <a href="{% url 'ticket_delete' instance.pk %}">Supprimer</a>
+                        </button>
+                    {% endif %}
+                </div>
+                <!-- ticket_container -->
             {% endif %}
-        {% endif %}
-        ---------------------
-    {% endfor %}
-</div>
-{% include 'partials/page_navigator.html' %}
+        {% endfor %}
+    </div>
+    {% include 'partials/page_navigator.html' %}
 {% endblock content %}

@@ -1,13 +1,19 @@
 from django import forms
+from django.contrib.auth import get_user_model
+
 
 from .models import Ticket, Review, UserFollows
+
+User = get_user_model()
 
 
 class UserSubscriptionForm(forms.ModelForm):
     followed_user = forms.CharField(
         label=("Suivre d'autres utilisateurs"),
         max_length=100,
-        widget=forms.TextInput(attrs={"placeholder": "Nom d'utilisateur"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": "Nom d'utilisateur", "class": "form_control"}
+        ),
     )
 
     class Meta:
@@ -29,6 +35,13 @@ class CreateTicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ["title", "description", "image"]
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form_control"}),
+            "description": forms.Textarea(
+                attrs={"class": "form_control text_form_control"}
+            ),
+            "image": forms.FileInput(attrs={"class": "form_control"}),
+        }
 
 
 class CreateReviewForm(forms.ModelForm):
@@ -47,6 +60,11 @@ class CreateReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ["headline", "rating", "body"]
+        widgets = {
+            "headline": forms.TextInput(attrs={"class": "form_control"}),
+            "body": forms.Textarea(attrs={"class": "form_control text_form_control"}),
+            "rating": forms.FileInput(attrs={"class": "form_control"}),
+        }
 
 
 class DeleteForm(forms.Form):

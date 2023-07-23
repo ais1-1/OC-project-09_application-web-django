@@ -1,11 +1,12 @@
-<span>
+<span class="page_navigator">
     {% if page_obj.has_previous %}
         <a href="?page=1">&laquo; première</a>
-        <a href="?page={{ page_obj.previous_page_number }}">précédente</a>
+        <a class="page-btn_next"
+           href="?page={{ page_obj.previous_page_number }}">&lt; précédente</a>
     {% endif %}
     <span>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.</span>
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">suivante</a>
+        <a class="page-btn_next" href="?page={{ page_obj.next_page_number }}">suivante &gt;</a>
         <a href="?page={{ page_obj.paginator.num_pages }}">dernière &raquo;</a>
     {% endif %}
 </span>

@@ -6,9 +6,9 @@
         {{ form.as_p }}
         {% csrf_token %}
         {% if image_file %}
-            <img src="{{ image_file }}" alt="Image du livre">
+            <img src="{{ image_file }}" alt="Image du livre" height="" width="">
         </br>
     {% endif %}
-    <button type="submit">Envoyer</button>
+    <button class="form_button" type="submit">Envoyer</button>
 </form>
 {% endblock content %}

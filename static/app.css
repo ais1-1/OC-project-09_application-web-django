@@ -1,3 +1,191 @@
+* {
+  margin: 0;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1em;
+  background-color: #9cf1a3;
+}
+
+a {
+  color: #242424;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 3.5em;
+  color: #08420b;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #121734;
+}
+
+p {
+  font-size: 1.1em;
+  color: #121734;
+  padding: 5px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Style page content */
+.main {
+  margin-left: 240px;
+  /* Same as the width of the sidebar */
+  padding: 20px;
+}
+
+nav,
+.login {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav a {
+  margin-left: 30px;
+}
+
+.login {
+  padding: 5px;
+}
+
+
 .checked {
-    color: orange;
-  }
+  color: orange;
+}
+
+
+button a,
+.form_button {
+  border: none;
+  padding: 10px 20px;
+  display: inline-block;
+  color: #101811;
+  border-radius: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button a:hover,
+.form_button:hover {
+  color: crimson;
+}
+
+.form_button {
+  float: right;
+}
+
+.page_navigator {
+  margin-top: 10px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-btn_next {
+  position: relative;
+  color: #0e2914;
+  width: auto;
+}
+
+img {
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.ticket_container {
+  margin: 5px;
+  padding: 5px;
+  border-style: solid;
+  background-color: azure;
+  overflow: hidden;
+
+}
+
+.ticket {
+  margin: 5px;
+  padding: 5px;
+  background-color: azure;
+}
+
+.review_container {
+  margin: 5px;
+  padding: 5px;
+  border-style: solid;
+  background-color: beige;
+  overflow: hidden;
+}
+
+.review {
+  margin: 10px;
+  padding: 5px;
+}
+
+.time_created {
+  float: right;
+}
+
+.title {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #121734;
+  font-size: 1.5em;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td {
+  border: 1px solid #110e0e;
+  padding: 8px;
+}
+
+td .unfollow_btn {
+  float: right;
+  margin: auto;
+  background-color: transparent;
+}
+
+form {
+  margin: 10px;
+  padding: 10px;
+}
+
+.form_control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.text_form_control {
+  display: block;
+  width: 100%;
+}
+
+.myradio {
+  padding: 5px;
+  margin: 10px;
+}

@@ -4,15 +4,27 @@
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <button type="submit" >Envoyer</button>
+        <button class="form_button" type="submit">Envoyer</button>
     </form>
     <h2>Abonnements</h2>
-    {% for user in followed_users %}
-        <p>{{ user.followed_user.username }}<button><a href="{% url 'unfollow_user' user.followed_user.pk %}">Désabonner</a></button></p>
-    {% endfor %}
-
+    <table>
+        {% for user in followed_users %}
+            <tr>
+                <td>{{ user.followed_user.username }}</td>
+                <td>
+                    <button class="unfollow_btn">
+                        <a href="{% url 'unfollow_user' user.followed_user.pk %}">Désabonner</a>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
     <h2>Abonnés</h2>
-    {% for follower in user_followees %}
-        <p>{{ follower.user.username }}</p>
-    {% endfor %}
+    <table>
+        {% for follower in user_followees %}
+            <tr>
+                <td>{{ follower.user.username }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock content %}

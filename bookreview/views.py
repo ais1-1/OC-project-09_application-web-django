@@ -29,7 +29,7 @@ def home(request):
 
     tickets_pk_with_response = []
     for ticket in tickets:
-        if ticket.review_set.count() == 1:
+        if ticket.review_set.filter(user=request.user).count() == 1:
             tickets_pk_with_response.append(ticket.pk)
 
     context = {
@@ -122,7 +122,7 @@ def delete_ticket(request, tickets_pk):
 @login_required
 def create_review(request):
     ticket_form = forms.CreateTicketForm()
-    review_form = CreateReviewForm()
+    review_form = forms.CreateReviewForm()
     if request.method == "POST":
         ticket_form = forms.CreateTicketForm(request.POST, request.FILES)
         review_form = forms.CreateReviewForm(request.POST)
