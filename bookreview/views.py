@@ -12,10 +12,17 @@ from . import forms
 User = get_user_model()
 
 
+def get_followed_users_ids(current_user):
+    following = UserFollows.objects.filter(user=current_user)
+    followed_users_pks = [follow.followed_user.pk for follow in following]
+    return followed_users_pks
+
+
 @login_required
 def home(request):
-    tickets = Ticket.objects.all()
-    reviews = Review.objects.all()
+    followed_users_pks = get_followed_users_ids(request.user)
+    tickets = Ticket.objects.filter(user__pk__in=followed_users_pks)
+    reviews = Review.objects.filter(user__pk__in=followed_users_pks)
     tickets_and_reviews = sorted(
         chain(tickets, reviews),
         key=lambda instance: instance.time_created,
