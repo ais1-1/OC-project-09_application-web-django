@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% load post_extras %}
 {% block content %}
-    <p>Ticket - {% get_poster_display ticket.user %}</p>
-    {% include 'bookreview/partials/ticket.html' with ticket=ticket %}
-    <h3>Supprimer le ticket ?</h3>
-    <form method="post">
-        {{ delete_form }}
-        {% csrf_token %}
-        <button class="form_button" type="submit">Supprimer</button>
-    </form>
+    <div class="ticket_container">
+        <p>Ticket - {% get_poster_display ticket.user %}</p>
+        {% include 'bookreview/partials/ticket.html' with ticket=ticket %}
+    </div>
+    <div class="review_container">
+        <h3>Supprimer le ticket ?</h3>
+        <form method="post">
+            {{ delete_form }}
+            {% csrf_token %}
+            <button class="form_button" type="submit">Supprimer</button>
+        </form>
+    </div>
 {% endblock content %}

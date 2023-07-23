@@ -53,7 +53,16 @@ def my_posts(request):
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context = {"page_obj": page_obj}
+
+    tickets_pk_with_response = []
+    for ticket in tickets:
+        if ticket.review_set.filter(user=request.user).count() == 1:
+            tickets_pk_with_response.append(ticket.pk)
+
+    context = {
+        "page_obj": page_obj,
+        "tickets_pk_with_response": tickets_pk_with_response,
+    }
 
     return render(request, "bookreview/my_posts.html", context=context)
 
@@ -173,6 +182,7 @@ def edit_review(request, review_pk):
 def delete_review(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk, user=request.user)
     delete_form = forms.DeleteForm()
+    responding_ticket = True
     if request.method == "POST":
         if "delete_form" in request.POST:
             delete_form = forms.DeleteForm(request.POST)
@@ -182,16 +192,22 @@ def delete_review(request, review_pk):
     return render(
         request,
         "bookreview/delete_review.html",
-        context={"delete_form": delete_form, "review": review},
+        context={
+            "delete_form": delete_form,
+            "review": review,
+            "responding_ticket": responding_ticket,
+        },
     )
 
 
 @login_required
 def create_review_as_response(request, tickets_pk):
     ticket = get_object_or_404(Ticket, pk=tickets_pk)
+    responding_ticket = True
     form = forms.CreateReviewForm()
     if request.method == "POST":
         form = forms.CreateReviewForm(request.POST)
+        responding_ticket = False
         if form.is_valid():
             form_instance = form.save(commit=False)
             form_instance.ticket = ticket
@@ -201,7 +217,11 @@ def create_review_as_response(request, tickets_pk):
     return render(
         request,
         "bookreview/review_as_response.html",
-        context={"form": form, "ticket": ticket},
+        context={
+            "form": form,
+            "ticket": ticket,
+            "responding_ticket": responding_ticket,
+        },
     )
 
 

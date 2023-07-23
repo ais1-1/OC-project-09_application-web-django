@@ -17,6 +17,8 @@
     </div>
     {% if ticket.pk in tickets_pk_with_response %}
         <!-- do nothing -->
+    {% elif responding_ticket %}
+        <!-- do nothing -->
     {% else %}
         <button class="form_button">
             <a href="{% url 'review_create_as_response' ticket.pk %}">Créer une critique</a>

@@ -11,7 +11,7 @@
         </div>
         <div>{{ review.body }}</div>
         <div class="ticket_container">
-            <p>Ticket - {% get_poster_display review.user %}</p>
+            <p>Ticket - {% get_poster_display review.ticket.user %}</p>
             {% include 'bookreview/partials/ticket.html' with ticket=review.ticket %}
         </div>
     </div>

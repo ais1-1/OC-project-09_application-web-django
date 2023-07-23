@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% include 'bookreview/partials/review.html' with review=review %}
-    <h3>Supprimer la critique ?</h3>
-    <form method="post">
-        {{ delete_form }}
-        {% csrf_token %}
-        <button class="form_button" type="submit">Supprimer</button>
-    </form>
+    <div class="ticket_container">{% include 'bookreview/partials/review.html' with review=review %}</div>
+    <div class="review_container">
+        <h3>Supprimer la critique ?</h3>
+        <form method="post">
+            {{ delete_form }}
+            {% csrf_token %}
+            <button class="form_button" type="submit">Supprimer</button>
+        </form>
+    </div>
 {% endblock content %}
