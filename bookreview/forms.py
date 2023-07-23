@@ -9,7 +9,7 @@ User = get_user_model()
 
 class UserSubscriptionForm(forms.ModelForm):
     followed_user = forms.CharField(
-        label=("Suivre d'autres utilisateurs"),
+        label=(""),
         max_length=100,
         widget=forms.TextInput(
             attrs={"placeholder": "Nom d'utilisateur", "class": "form_control"}

@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h3>Désabonner {{ user_follows.followed_user }} ?</h3>
-    <form method="post">
-        {{ delete_form }}
-        {% csrf_token %}
-        <button class="form_button" type="submit">Désabonner</button>
-    </form>
+    <div class="review_container">
+        <h3>Désabonner {{ user_follows.followed_user }} ?</h3>
+        <form method="post">
+            {{ delete_form }}
+            {% csrf_token %}
+            <button class="form_button" type="submit">Désabonner</button>
+        </form>
+    </div>
 {% endblock content %}
