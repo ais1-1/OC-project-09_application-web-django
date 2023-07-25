@@ -35,7 +35,7 @@ This will install all the required modules to run the application. Those are Dja
 + Download or clone the repository.
 + Inside the outer litreviewbooks/ directory, open your terminal and enter the following command:
 
-    `python manage.py runserver`
+    python manage.py runserver
 
 You will see an output similar to the following in the commandline:
 
@@ -47,7 +47,7 @@ You will see an output similar to the following in the commandline:
     Django version 3.2.18, using settings 'litreviewbooks.settings'
     Starting development server at http://127.0.0.1:8000/
     Quit the server with CONTROL-C.
-
+    
 You have just started the Django development server. Now that the server’s running, visit http://127.0.0.1:8000/ with your web browser to test the application.
 
 ## Connection details
