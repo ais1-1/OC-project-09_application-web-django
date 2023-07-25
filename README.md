@@ -35,7 +35,7 @@ This will install all the required modules to run the application. Those are Dja
 + Download or clone the repository.
 + Inside the outer litreviewbooks/ directory, open your terminal and enter the following command:
 
-    python manage.py runserver
+    `python manage.py runserver`
 
 You will see an output similar to the following in the commandline:
 

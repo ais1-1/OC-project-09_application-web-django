@@ -25,6 +25,10 @@ h2 {
   color: #121734;
 }
 
+.centered_title {
+  text-align: center;
+}
+
 p {
   font-size: 1.1em;
   color: #121734;
@@ -63,6 +67,10 @@ nav a {
   padding: 5px;
 }
 
+.login_cln {
+  width: 50%;
+  text-align: center;
+}
 
 .checked {
   color: orange;
