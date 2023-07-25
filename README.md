@@ -2,6 +2,8 @@
 
 This is a project done as part of my degree program at Openclassrooms (project 09: Développez une application Web en utilisant Django).
 
+The objective is to create a minimum viable product of a web application enabling a community of users to consult or solicit a book or article review upon request.
+
 ## Prerequisite
 ### Create a virtual environment
 
@@ -23,17 +25,16 @@ In the project directory, open a terminal and enter the following command:
 
     source <name of the virtual environment>/bin/activate
 
-### Install dependencies
-
-Again, inside the project directory, in your terminal, enter the following command:
-
-    pip install -r requirements.txt
-
-This will install all the required modules to run the application. Those are Django and Pillow.
 
 ## Run the website
 + Download or clone the repository.
 + Inside the outer litreviewbooks/ directory, open your terminal and enter the following command:
+
+    `pip install -r requirements.txt`
+
+    This will install all the required modules to run the application. Those are Django and Pillow.
+
++ Again, inside the outer litreviewbooks/ directory, in your terminal and enter the following command:
 
     `python manage.py runserver`
 
