@@ -35,23 +35,25 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Style page content */
 .main {
-  margin-left: 240px;
-  /* Same as the width of the sidebar */
   padding: 20px;
+}
+
+nav h1 a:hover {
+  text-decoration: none;
 }
 
 nav,
 .login {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 20px;
 }
 
 nav a {
-  margin-left: 30px;
+  padding: 10px;
 }
 
 .login {
@@ -106,9 +108,11 @@ img {
 }
 
 .ticket_container {
-  margin: 5px;
+  margin: 10px;
   padding: 5px;
   border-style: solid;
+  border-width: 2px;
+  border-color: #323232;
   background-color: azure;
   overflow: hidden;
 
@@ -121,9 +125,11 @@ img {
 }
 
 .review_container {
-  margin: 5px;
+  margin: 10px;
   padding: 5px;
   border-style: solid;
+  border-width: 2px;
+  border-color: #323232;
   background-color: beige;
   overflow: hidden;
 }
@@ -188,4 +194,19 @@ form {
 .myradio {
   padding: 5px;
   margin: 10px;
+}
+
+.main_btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 1024px) {
+  .main {
+    width: 960px;
+    padding: 0;
+    margin: auto;
+  }
 }

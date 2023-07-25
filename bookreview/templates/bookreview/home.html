@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% load post_extras %}
 {% block content %}
-    <button>
-        <a href="{% url 'ticket_create' %}">Demander une critique</a>
-    </button>
-    <button>
-        <a href="{% url 'review_create' %}">Créer une critique</a>
-    </button>
+    <div class="main_btns">
+        <button>
+            <a href="{% url 'ticket_create' %}">Demander une critique</a>
+        </button>
+        <button>
+            <a href="{% url 'review_create' %}">Créer une critique</a>
+        </button>
+    </div>
     <div>
         {% for instance in page_obj %}
             {% if instance|model_type == 'Review' %}
