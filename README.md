@@ -2,6 +2,8 @@
 
 This is a project done as part of my degree program at Openclassrooms (project 09: Développez une application Web en utilisant Django).
 
+The objective is to create a minimum viable product of a web application enabling a community of users to consult or solicit a book or article review upon request.
+
 ## Prerequisite
 ### Create a virtual environment
 
