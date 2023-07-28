@@ -20,8 +20,9 @@
     {% elif responding_ticket %}
         <!-- do nothing -->
     {% else %}
-        <button class="form_button">
-            <a href="{% url 'review_create_as_response' ticket.pk %}">Créer une critique</a>
+        <button class="form_button"
+                onclick="window.location.href=`{% url 'review_create_as_response' ticket.pk %}`">
+            Créer une critique
         </button>
     {% endif %}
 {% endblock content %}

@@ -7,24 +7,28 @@
             {% if instance|model_type == 'Review' %}
                 <div class="review_container">
                     {% include 'bookreview/partials/review.html' with review=instance %}
-                    <button>
-                        <a href="{% url 'review_edit' instance.pk %}">Modifier</a>
-                    </button>
-                    <button>
-                        <a href="{% url 'review_delete' instance.pk %}">Supprimer</a>
-                    </button>
+                    <div class="main_btns">
+                        <button class="form_button"
+                                onclick="window.location.href=`{% url 'review_edit' instance.pk %}`">Modifier</button>
+                        <button class="form_button"
+                                onclick="window.location.href=`{% url 'review_delete' instance.pk %}`">
+                            Supprimer
+                        </button>
+                    </div>
                 </div>
                 <!-- review_container -->
             {% elif instance|model_type == 'Ticket' %}
                 <div class="ticket_container">
                     <p>Ticket - {% get_poster_display instance.user %}</p>
                     {% include 'bookreview/partials/ticket.html' with ticket=instance %}
-                    <button>
-                        <a href="{% url 'ticket_edit' instance.pk %}">Modifier</a>
-                    </button>
-                    <button>
-                        <a href="{% url 'ticket_delete' instance.pk %}">Supprimer</a>
-                    </button>
+                    <div class="main_btns">
+                        <button class="form_button"
+                                onclick="window.location.href=`{% url 'ticket_edit' instance.pk %}`">Modifier</button>
+                        <button class="form_button"
+                                onclick="window.location.href=`{% url 'ticket_delete' instance.pk %}`">
+                            Supprimer
+                        </button>
+                    </div>
                 </div>
                 <!-- ticket_container -->
             {% endif %}

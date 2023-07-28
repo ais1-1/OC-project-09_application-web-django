@@ -3,9 +3,8 @@
     <div class="login">
         <div class="login_cln">
             <h2>Inscrivez-vous maintenant !</h2>
-            <button>
-                <a href="{% url 'signup' %}">S'inscrire</a>
-            </button>
+            <button class="form_button"
+                    onclick="window.location.href=`{% url 'signup' %}`">S'inscrire</button>
         </div>
         <div class="login_cln">
             <h2>Connectez-vous</h2>

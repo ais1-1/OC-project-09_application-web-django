@@ -2,12 +2,10 @@
 {% load post_extras %}
 {% block content %}
     <div class="main_btns">
-        <button>
-            <a href="{% url 'ticket_create' %}">Demander une critique</a>
-        </button>
-        <button>
-            <a href="{% url 'review_create' %}">Créer une critique</a>
-        </button>
+        <button class="form_button"
+                onclick="window.location.href=`{% url 'ticket_create' %}`">Demander une critique</button>
+        <button class="form_button"
+                onclick="window.location.href=`{% url 'review_create' %}`">Créer une critique</button>
     </div>
     <div>
         {% for instance in page_obj %}
@@ -15,11 +13,11 @@
                 <div class="review_container">
                     {% include 'bookreview/partials/review.html' with review=instance %}
                     {% if instance.user == request.user %}
-                        <button>
-                            <a href="{% url 'review_edit' instance.pk %}">Modifier</a>
-                        </button>
-                        <button>
-                            <a href="{% url 'review_delete' instance.pk %}">Supprimer</a>
+                        <button class="form_button"
+                                onclick="window.location.href=`{% url 'review_edit' instance.pk %}`">Modifier</button>
+                        <button class="form_button"
+                                onclick="window.location.href=`{% url 'review_delete' instance.pk %}`">
+                            Supprimer
                         </button>
                     {% endif %}
                 </div>
@@ -29,11 +27,11 @@
                     <p>Ticket - {% get_poster_display instance.user %}</p>
                     {% include 'bookreview/partials/ticket.html' with ticket=instance %}
                     {% if instance.user == request.user %}
-                        <button>
-                            <a href="{% url 'ticket_edit' instance.pk %}">Modifier</a>
-                        </button>
-                        <button>
-                            <a href="{% url 'ticket_delete' instance.pk %}">Supprimer</a>
+                        <button class="form_button"
+                                onclick="window.location.href=`{% url 'ticket_edit' instance.pk %}`">Modifier</button>
+                        <button class="form_button"
+                                onclick="window.location.href=`{% url 'ticket_delete' instance.pk %}`">
+                            Supprimer
                         </button>
                     {% endif %}
                 </div>
