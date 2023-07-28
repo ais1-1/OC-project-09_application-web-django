@@ -28,13 +28,13 @@ In the project directory, open a terminal and enter the following command:
 
 ## Run the website
 + Download or clone the repository.
-+ Inside the outer litreviewbooks/ directory, open your terminal and enter the following command:
++ Inside the project directory, open your terminal and enter the following command:
 
     `pip install -r requirements.txt`
 
     This will install all the required modules to run the application. Those are Django and Pillow.
 
-+ Again, inside the outer litreviewbooks/ directory, in your terminal and enter the following command:
++ Again, inside the project directory, in your terminal and enter the following command:
 
     `python manage.py runserver`
 
