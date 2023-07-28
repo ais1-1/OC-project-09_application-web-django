@@ -23,6 +23,9 @@ class UserSubscriptionForm(forms.ModelForm):
     def clean_followed_user(self):
         followed_user_string = self.cleaned_data["followed_user"]
 
+        if UserFollows.objects.filter(followed_user__username=followed_user_string):
+            raise forms.ValidationError("You already follow this user.")
+
         try:
             followed_user = User.objects.get(username=followed_user_string)
         except User.DoesNotExist:
